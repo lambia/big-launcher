@@ -4,16 +4,18 @@
     <grid
       :draggable="true"
       :sortable="true"
-      :items="items"
+      :items="visibleItems"
       :cellHeight="icoCfg.boxSize"
-      :cellWidth="icoCfg.boxSize">
+      :cellWidth="icoCfg.boxSize"
+      @sort="onSort"
+      >
       <template slot="cell" scope="props">
           <div class="v-grid-item" :style="[icoCfg.itemCSS, props.item.itemCSS]">
             <div class="iconWrapper" :style="icoCfg.iconWrapperCSS">
               <v-icon :name="props.item.icon" class="iconSvg" scale="1" label="Forked Repository" :style="icoCfg.iconCSS" />
             </div>
             <div :style="[icoCfg.labelCSS, props.item.labelCSS]">
-              <span>{{props.item.label}}</span>
+              <span>{{props.item.label}} {{props.index}}/{{props.sort}}</span>
             </div>
           </div>
       </template>
@@ -75,15 +77,21 @@ export default {
         },
         iconCSS: {
           height: "64px", //input = gutterIcon(<split)
-          width: "64px" //meglio auto, ma svg rettangolari perdono il pad
+          width: "auto",
+          maxWidth: "80%",
+          maxHeight: "80%" //for "safety" reason, avoid icons getting big as container
         }
         //calcolare inner da size/padding
         //generare proprietà css da int con u.m. separata
       },
+      visibleItemsOrder: [],
+      visibleItems: [],
       items: [
-        { 
+        {
+          sort: 0,
           label: 'Netflix',
-          icon: 'baidu',
+          icon: 'netflix',
+          tag: 'video',
           itemCSS: {
               backgroundColor: '#221f1f',
               color: '#e50914'
@@ -93,8 +101,10 @@ export default {
           }
         },
         {
+          sort: 1,
           label: 'Spotify',
           icon: 'brands/spotify',
+          tag: 'music',
           itemCSS: {
             backgroundColor: '#1db954',
             color: '#191414'
@@ -105,7 +115,9 @@ export default {
           }
         },
         {
+          sort: 2,
           label: 'Youtube',
+          tag: 'video',
           icon: 'brands/youtube',
           itemCSS: {
             backgroundColor: '#fff',
@@ -120,6 +132,33 @@ export default {
   },
   components: {
     MainMenu
+  },
+  beforeMount: function() {
+    this.visibleItems = this.items;
+  },
+  mounted: function() {
+    this.visibleItems.sort(function(a, b) { 
+        return a.sort - b.sort;
+    });
+    //this.removeItem(1,2);
+    //this.filterItems("video");
+  },
+  methods: {
+    filterItems: function(tag) {
+      this.visibleItems = this.items.filter(function(value, index, arr){
+          return value.tag.includes(tag);
+      });
+    },
+    removeItem: function(which,howmany=1) {
+      this.visibleItems.splice(which,howmany);
+    },
+    onSort: function(event) {
+      var self = this;
+      event.items.map(function(current, index, arr){
+          self.items[current.index].sort = current.sort;
+      });
+      //now save it
+    }
   }
 }
 </script>

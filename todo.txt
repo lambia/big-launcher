@@ -1,8 +1,16 @@
-Organizzare view e component
-Controllare evento "on cambio ordine"
+.Organizzare un pò meglio view e component
+.Controllare evento "on cambio ordine"
+.Aggiungere filtri/sorting
 Leggere e salvare icone da json
-Se evento ordinamento restituisce lista, mettila in json
-Aggiungere filtri/sorting
+padding del container icone (ricordati di transform scale)
+proprietà css calcolate (computed?)
 
 menu routing da json?
 localizzazione
+
+aggiungere bottoni generati dai tag presenti
+aggiungere bottoni sorting asc/desc
+possibilità di add/remove icone
+due bottoni: "ordina" e "salva". attivano (draggable/sortable + handler onSort) e (saveToJSON)
+
+il cazzo di pannello per customizzare lo style (vuex?)
