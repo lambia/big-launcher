@@ -1,0 +1,8 @@
+Organizzare view e component
+Controllare evento "on cambio ordine"
+Leggere e salvare icone da json
+Se evento ordinamento restituisce lista, mettila in json
+Aggiungere filtri/sorting
+
+menu routing da json?
+localizzazione
